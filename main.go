@@ -10,8 +10,8 @@ import (
 )
 
 type DistanceResponse struct {
-	Distance float64 `json:"distance"`
-	Unit     string  `json:"unit"`
+	Meter float64 `json:"meter"`
+	Km     string  `json:"km"`
 }
 
 func calculateDistance(lat1, lon1, lat2, lon2 float64) float64 {
@@ -72,8 +72,8 @@ func distanceHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Create response object
 	response := DistanceResponse{
-		Distance: distance,
-		Unit:     "meter",
+		Meter: distance,
+		Km:    fmt.Sprintf("%.2f", distance/1000.0),
 	}
 
 	// Convert response object to JSON
@@ -94,6 +94,6 @@ func distanceHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/distance", distanceHandler)
 
-	fmt.Println("Starting server on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	fmt.Println("Starting server on http://localhost:4000")
+	log.Fatal(http.ListenAndServe(":4000", nil))
 }
